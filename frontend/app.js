@@ -335,6 +335,17 @@ function clearResultsBlock() {
   updateActions(); // чтобы скрыть кнопку скачивания
 }
 
+// --- Звуковая обратная связь ---
+function playSound(type) {
+  let src = '';
+  if (type === 'success') src = '../assets/success.mp3';
+  if (type === 'error') src = '../assets/error.mp3';
+  if (!src) return;
+  const audio = new Audio(src);
+  audio.volume = 0.5;
+  audio.play();
+}
+
 function showResultsBlock(results) {
   conversionResults = results;
   selectedForDownload = results.length === 1 ? [results[0]] : [];
@@ -350,7 +361,9 @@ function showResultsBlock(results) {
   list.style.flexDirection = 'column';
   list.style.width = '100%';
   list.style.gap = '0.5em';
+  let hasError = false;
   results.forEach((res, idx) => {
+    if (res.error) hasError = true;
     const row = document.createElement('div');
     row.style.display = 'flex';
     row.style.alignItems = 'center';
@@ -431,6 +444,9 @@ function showResultsBlock(results) {
   // Вставляем блок после preview
   previewBlock.parentNode.insertBefore(block, previewBlock.nextSibling);
   updateActions();
+  // --- Воспроизведение звука ---
+  if (hasError) playSound('error');
+  else playSound('success');
 }
 
 // Очищаем результаты при добавлении новых файлов
@@ -576,6 +592,19 @@ window.addEventListener('DOMContentLoaded', () => {
     shStudioFooter.title = 'Перейти на сайт SH Studio';
     shStudioFooter.addEventListener('click', () => {
       window.electronAPI.openExternal('https://annjtt.github.io/sh-studio/');
+    });
+  }
+  // --- Клик по всей зоне drag&drop ---
+  if (dropZone) {
+    dropZone.addEventListener('click', (e) => {
+      // Не срабатывает, если клик по input или по label/file-label или по ссылке внутри label
+      if (
+        e.target.tagName.toLowerCase() === 'input' ||
+        e.target.classList.contains('file-label') ||
+        e.target.closest('.file-label')
+      ) return;
+      const fileInput = dropZone.querySelector('input[type="file"]');
+      if (fileInput) fileInput.click();
     });
   }
 }); 
