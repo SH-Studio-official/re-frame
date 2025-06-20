@@ -527,7 +527,11 @@ window.addEventListener('DOMContentLoaded', () => {
   }
   const removeBgBtn = actions.querySelector('#removeBgBtn');
   if (removeBgBtn) {
-    const iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>`;
+    const iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+      <circle cx="6" cy="18" r="2"/>
+      <circle cx="6" cy="6" r="2"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="M20 4L8.12 15.88M14.47 14.48L20 20"/>
+    </svg>`;
     removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
     removeBgBtn.addEventListener('click', async () => {
       if (!selectedFiles.length) return;
@@ -564,6 +568,14 @@ window.addEventListener('DOMContentLoaded', () => {
       finishHeaderProgressBar();
       removeBgBtn.disabled = false;
       removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
+    });
+  }
+  const shStudioFooter = document.getElementById('shStudioFooter');
+  if (shStudioFooter && window.electronAPI && window.electronAPI.openExternal) {
+    shStudioFooter.style.cursor = 'pointer';
+    shStudioFooter.title = 'Перейти на сайт SH Studio';
+    shStudioFooter.addEventListener('click', () => {
+      window.electronAPI.openExternal('https://annjtt.github.io/sh-studio/');
     });
   }
 }); 
