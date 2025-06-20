@@ -66,7 +66,7 @@ function updateMainPanel() {
 function updateActions(showReload) {
   const actions = document.querySelector('.actions');
   // Очищаем все кроме формата и кнопки конвертации
-  while (actions.children.length > 2) actions.removeChild(actions.lastChild);
+  while (actions.children.length > 3) actions.removeChild(actions.lastChild);
   // Кнопка скачивания результатов
   if (conversionResults.length) {
     let dlBtn = document.createElement('button');
@@ -364,7 +364,7 @@ function showResultsBlock(results) {
     left.style.display = 'flex';
     left.style.alignItems = 'center';
     left.style.gap = '1em';
-    if (!res.error && (res.thumbnail || (res.path && res.name.match(/\.(png|jpg|jpeg|webp|gif|tiff|avif|ico)$/i)))) {
+    if (!res.error && (res.thumbnail || (typeof res.path === 'string' && res.path && res.name.match(/\.(png|jpg|jpeg|webp|gif|tiff|avif|ico)$/i)))) {
       const img = document.createElement('img');
       img.style.maxWidth = '48px';
       img.style.maxHeight = '48px';
@@ -372,7 +372,13 @@ function showResultsBlock(results) {
       img.style.boxShadow = '0 1px 4px rgba(30,34,60,0.13)';
       img.style.background = '#222';
       img.style.objectFit = 'contain';
-      img.src = res.thumbnail || ('file://' + res.path);
+      if (res.thumbnail) {
+        img.src = res.thumbnail;
+      } else if (typeof res.path === 'string' && res.path) {
+        img.src = 'file://' + res.path;
+      } else {
+        img.src = '';
+      }
       left.appendChild(img);
     } else {
       const icon = document.createElement('div');
@@ -476,7 +482,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (loading) loading.classList.add('hide');
   }, 1800);
   const actions = document.querySelector('.actions');
-  const convertBtn = actions.querySelector('button.glass-btn');
+  const convertBtn = actions.querySelector('#convertBtn');
   if (convertBtn) {
     const iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>`;
     convertBtn.innerHTML = iconHTML + 'Конвертировать';
@@ -517,6 +523,47 @@ window.addEventListener('DOMContentLoaded', () => {
       finishHeaderProgressBar();
       convertBtn.disabled = false;
       convertBtn.innerHTML = iconHTML + 'Конвертировать';
+    });
+  }
+  const removeBgBtn = actions.querySelector('#removeBgBtn');
+  if (removeBgBtn) {
+    const iconHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>`;
+    removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
+    removeBgBtn.addEventListener('click', async () => {
+      if (!selectedFiles.length) return;
+      showHeaderProgressBar();
+      removeBgBtn.disabled = true;
+      removeBgBtn.innerHTML = iconHTML + 'Удаление...';
+      // Только изображения
+      const filesToProcess = selectedFiles.filter(f => f.type.startsWith('image/'));
+      if (!filesToProcess.length) {
+        removeBgBtn.disabled = false;
+        removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
+        finishHeaderProgressBar();
+        alert('Выберите хотя бы одно изображение для удаления фона.');
+        return;
+      }
+      // Читаем содержимое файлов
+      const fileBuffers = await Promise.all(filesToProcess.map(f => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({ name: f.name, buffer: Array.from(new Uint8Array(reader.result)) });
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(f);
+      })));
+      let results = [];
+      try {
+        results = await window.electronAPI.removeBg(fileBuffers);
+      } catch (e) {
+        finishHeaderProgressBar();
+        alert('Ошибка удаления фона: ' + e.message);
+        removeBgBtn.disabled = false;
+        removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
+        return;
+      }
+      showResultsBlock(results);
+      finishHeaderProgressBar();
+      removeBgBtn.disabled = false;
+      removeBgBtn.innerHTML = iconHTML + 'Удалить фон';
     });
   }
 }); 

@@ -126,4 +126,25 @@ ipcMain.handle('open-external', async (event, url) => {
     console.error('Error opening URL:', e.message);
     return { ok: false, error: e.message };
   }
+});
+
+ipcMain.handle('remove-bg', async (event, files) => {
+  const outDir = path.join(os.tmpdir(), 'convector-output');
+  if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+  const results = await Promise.all(files.map(file => {
+    return new Promise((resolve) => {
+      const worker = new Worker(path.join(__dirname, 'worker-remove-bg.js'), {
+        workerData: {
+          file,
+          outDir
+        }
+      });
+      worker.on('message', (result) => resolve(result));
+      worker.on('error', (e) => resolve({ name: file.name, error: e.message }));
+      worker.on('exit', (code) => {
+        if (code !== 0) resolve({ name: file.name, error: 'Worker stopped with exit code ' + code });
+      });
+    });
+  }));
+  return results;
 }); 
