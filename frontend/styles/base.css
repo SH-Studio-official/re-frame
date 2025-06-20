@@ -1,0 +1,88 @@
+:root {
+  --color-bg: rgba(0, 0, 0, 0.932);
+  --color-panel-bg: rgba(30, 34, 60, 0.082);
+  --color-glass-bg: rgba(255,255,255,0.13);
+  --color-glass-hover: rgba(255,255,255,0.22);
+  --color-border: rgba(255,255,255,0.22);
+  --color-border-active: #fff;
+  --color-shadow: 0 8px 32px 0 rgba(30,34,60,0.22);
+  --color-shadow-inset: 0 1.5px 0 rgba(255,255,255,0.12) inset;
+  --color-shadow-small: 0 2px 8px rgba(30,34,60,0.13);
+  --color-text-main: #fff;
+  --color-text-secondary: rgba(255,255,255,0.85);
+  --color-text-dark: #222;
+  --radius-main: 16px;
+  --radius-panel: 24px;
+  --radius-small: 12px;
+  --radius-modal: 28px;
+  --radius-btn: 10px;
+  --blur-main: 8px;
+  --transition-main: 0.18s;
+  --padding-block: 1.1em 0.5em 1em 0.5em;
+  --color-focus: rgba(255, 39, 93, 0.884);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: var(--color-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+body::-webkit-scrollbar, html::-webkit-scrollbar {
+  display: none;
+} 
+
+.header-progress-bar {
+  min-width: 150px;
+  max-width: 150px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: none;
+}
+.header-progress-inner {
+  width: 150px;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  box-shadow: none;
+  position: relative;
+  opacity: 0.8;
+  transition: none;
+  gap: 0;
+}
+.header-progress-inner .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 2px rgba(255,255,255,0.45);
+  opacity: 0.45;
+  animation: header-dot-wave 1.2s infinite cubic-bezier(.4,1.6,.6,1);
+}
+.header-progress-inner .dot:nth-child(1) { animation-delay: 0s; }
+.header-progress-inner .dot:nth-child(2) { animation-delay: 0.12s; }
+.header-progress-inner .dot:nth-child(3) { animation-delay: 0.24s; }
+.header-progress-inner .dot:nth-child(4) { animation-delay: 0.36s; }
+.header-progress-inner .dot:nth-child(5) { animation-delay: 0.48s; }
+.header-progress-inner .dot:nth-child(6) { animation-delay: 0.60s; }
+.header-progress-inner .dot:nth-child(7) { animation-delay: 0.72s; }
+@keyframes header-dot-wave {
+  0%, 100% { opacity: 0.45; transform: translateY(0) scale(1); }
+  40%      { opacity: 1;    transform: translateY(-7px) scale(1.25); }
+  60%      { opacity: 0.7;  transform: translateY(-3px) scale(1.1); }
+}
+.header-progress-inner.hide {
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+

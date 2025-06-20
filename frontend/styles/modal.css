@@ -1,0 +1,163 @@
+.modal-formats,
+.modal-info {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-panel-bg);
+  transition: background var(--transition-main);
+}
+.modal-formats.open,
+.modal-info.open {
+  display: flex;
+}
+.modal-content {
+  width: 480px;
+  height: 550px;
+  max-width: 98vw;
+  max-height: 95vh;
+  background: transparent;
+  border-radius: var(--radius-modal);
+  box-shadow: var(--color-shadow);
+  border: 1px solid var(--color-border);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  h3 {
+    color: var(--color-text-main);
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  backdrop-filter: blur(var(--blur-main));
+  -webkit-backdrop-filter: blur(var(--blur-main));
+  animation: modalFadeIn 0.25s;
+}
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+.modal-scroll-area {
+  width: 100%;
+  overflow-y: auto;
+  max-height: 55vh;
+  margin-bottom: 1.2em;
+  padding: 1em 0.2em;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.modal-scroll-area::-webkit-scrollbar {
+  display: none;
+}
+.format-category {
+  width: 100%;
+  margin: 1.6em 0 0.5em 0;
+  font-weight: 700;
+  color: var(--color-text-main);
+  font-size: 1.13em;
+  letter-spacing: 0.01em;
+  text-align: left;
+  padding-left: 0.2em;
+  border-top: 1.5px solid var(--color-border);
+  padding-top: 0.7em;
+}
+.format-category:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+  padding-left: 0.2em;
+}
+.format-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  background: transparent;
+  border-radius: var(--radius-small);
+  padding: 0.8rem 1.5rem;
+  box-shadow: 0 1px 4px var(--color-shadow-small);
+}
+.format-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  background: transparent;
+  border-radius: var(--radius-main);
+  box-shadow: 0 2px 8px var(--color-shadow-small);
+  cursor: pointer;
+  transition: border 0.2s, background 0.2s, transform 0.15s;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  user-select: none;
+  backdrop-filter: blur(var(--blur-main));
+}
+.format-icon img, .format-icon svg {
+  width: 28px;
+  height: 28px;
+  margin-bottom: 0.2rem;
+  filter: drop-shadow(0 1px 2px var(--color-shadow-small));
+}
+.format-icon span {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  font-weight: 450;
+}
+.format-icon.active, .format-icon:hover {
+  border: 0px solid var(--color-border-active);
+  background: var(--color-glass-hover);
+  transform: scale(1.07);
+  color: var(--color-text-main);
+  box-shadow: var(--color-shadow);
+}
+
+/* Добавляем стили для содержимого информационного модального окна */
+.modal-info .modal-scroll-area p,
+.modal-info .modal-scroll-area ul,
+.modal-info .modal-scroll-area li {
+  color: var(--color-text-secondary);
+  font-size: 1.02em;
+  line-height: 1.5;
+  margin-bottom: 0.8em;
+}
+.modal-info .modal-scroll-area ul {
+    padding-left: 1.5em;
+}
+.modal-info .modal-scroll-area li {
+    margin-bottom: 0.4em;
+}
+.modal-info .modal-scroll-area b {
+    color: var(--color-text-main);
+}
+/* Корректировка высоты скролл-области, если контента много */
+.modal-info .modal-scroll-area {
+    max-height: calc(95vh - 150px); /* Подстроить высоту, учитывая заголовок и кнопку закрытия */
+}
+
+/* Стили для кнопки информации в шапке */
+.header .controls .info-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Размер кнопки */
+  height: 30px; /* Размер кнопки */
+  border-radius: 50%; /* Круглая форма */
+  transition: color 0.2s;
+  cursor: pointer;
+  color: var(--color-text-main);
+}
+.header .controls .info-link:hover {
+  border: 0px solid var(--color-border-active);
+  border-radius: 50%;
+  transform: scale(1.07);
+  color: var(--color-focus);
+  box-shadow: var(--color-shadow);
+}
+.header .controls .info-link svg {
+  width: 29px; /* Размер иконки */
+  height: 29px; /* Размер иконки */
+  margin-top: 0.2em;
+  stroke: currentColor;
+} 

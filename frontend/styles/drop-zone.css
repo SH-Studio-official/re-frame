@@ -1,0 +1,36 @@
+.drop-zone {
+  width: 100%;
+  min-height: 150px;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+  background: transparent;
+  transition: border-color var(--transition-main), background var(--transition-main);
+  opacity: 0.98;
+  color: var(--color-text-main);
+  font-size: 1.08rem;
+  box-shadow: var(--color-shadow-small);
+  padding: var(--padding-block);
+  backdrop-filter: blur(var(--blur-main));
+}
+.drop-zone:hover, .drop-zone.hover {
+  border-color: var(--color-border-active);
+  background: var(--color-glass-hover);
+  box-shadow: var(--color-shadow);
+}
+.file-label {
+  cursor: pointer;
+  text-decoration: underline;
+  opacity: 0.85;
+  transition: all 0.2s;
+}
+.file-label:hover {
+  opacity: 1;
+  color: #b5cfff;
+  text-shadow: var(--color-shadow);
+  transform: scale(1.02);
+  transition: all 0.2s;
+} 
