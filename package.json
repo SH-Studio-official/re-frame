@@ -1,6 +1,6 @@
 {
   "name": "re-frame",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Re:frame - File Converter",
   "main": "main.js",
   "scripts": {
@@ -22,7 +22,7 @@
   },
   "build": {
     "appId": "com.shstudio.reframe",
-    "productName": "Re:frame",
+    "productName": "Re frame",
     "directories": {
       "output": "dist"
     },
