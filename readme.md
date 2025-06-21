@@ -133,4 +133,4 @@ npm start
 
 ## Контакты
 
-Если у вас есть вопросы или предложения, пожалуйста, свяжитесь с [SH Studio](sh.studio.creative@gmail.com).
+Если у вас есть вопросы или предложения, пожалуйста, свяжитесь с нами [SH Studio](sh.studio.creative@gmail.com).
