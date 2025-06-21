@@ -17,10 +17,10 @@
   pointer-events: none;
 }
 .loader {
-  width: 56px;
+  width: 10px;
   aspect-ratio: 1;
   color: #fff;
-  border: 2px solid;
+  border: 0px solid;
   display: grid;
   box-sizing: border-box;
   animation: l1 4s infinite linear;
@@ -32,7 +32,7 @@
   margin: auto;
   width: 70.7%;
   aspect-ratio: 1;
-  border: 2px solid;
+  border: 0px solid;
   box-sizing: content-box;
   animation: inherit;
   border-color: #fff;
@@ -40,7 +40,7 @@
 .loader::after {
   width: 50%;
   aspect-ratio: 1;
-  border: 2px solid;
+  border: 0px solid;
   animation-duration: 2s;
   border-color: #fff;
 }
@@ -61,7 +61,7 @@
 .loader-progress {
   width: 160px;
   height: 12px;
-  border-radius: 20px;
+  border-radius: 0px;
   color: #fff;
   border: 2px solid #fff;
   position: relative;
