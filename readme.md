@@ -1,6 +1,6 @@
 # Re:frame - File Converter
 
-![Logo](assets/icon.png)
+![Logo](assets/git-logo.png)
 
 ## Описание
 
