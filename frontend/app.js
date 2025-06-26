@@ -592,7 +592,22 @@ window.addEventListener('DOMContentLoaded', () => {
       // --- resize параметры ---
       let resize = null;
       if (settings.resize.preset !== 'original') {
-        resize = { width: settings.resize.width, height: settings.resize.height };
+        // Валидация пользовательских значений
+        let width = parseInt(settings.resize.width);
+        let height = parseInt(settings.resize.height);
+        if (settings.resize.preset === 'custom') {
+          if (!width || !height || width <= 0 || height <= 0) {
+            alert('Введите корректные значения ширины и высоты!');
+            convertBtn.disabled = false;
+            convertBtn.innerHTML = iconHTML + 'Конвертировать';
+            finishHeaderProgressBar();
+            return;
+          }
+        }
+        // Если выбран не custom, но значения есть — передаем их
+        if (width > 0 || height > 0) {
+          resize = { width: width > 0 ? width : null, height: height > 0 ? height : null };
+        }
       }
       let results = [];
       try {
@@ -710,6 +725,11 @@ function setResizePreset(value) {
   // Показать/скрыть customSizeBlock
   if (value === 'custom') {
     customSizeBlock.style.display = '';
+    // Для custom значения по умолчанию пустые
+    settings.resize.width = null;
+    settings.resize.height = null;
+    document.getElementById('customWidth').value = '';
+    document.getElementById('customHeight').value = '';
   } else {
     customSizeBlock.style.display = 'none';
     const preset = sizePresets.find(p => p.value === value);
@@ -745,10 +765,12 @@ setResizePreset(settings.resize.preset || 'original');
 const customWidth = document.getElementById('customWidth');
 const customHeight = document.getElementById('customHeight');
 if (customWidth) customWidth.oninput = function() {
-  settings.resize.width = parseInt(this.value) || null;
+  const val = parseInt(this.value);
+  settings.resize.width = (val > 0) ? val : null;
   saveSettings();
 };
 if (customHeight) customHeight.oninput = function() {
-  settings.resize.height = parseInt(this.value) || null;
+  const val = parseInt(this.value);
+  settings.resize.height = (val > 0) ? val : null;
   saveSettings();
 }; 
