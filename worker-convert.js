@@ -5,7 +5,7 @@ const sharp = require('sharp');
 const pngToIco = require('png-to-ico');
 
 (async () => {
-  const { file, format, outDir } = workerData;
+  const { file, format, outDir, resize } = workerData;
   const ext = format.toLowerCase();
   const base = path.parse(file.name).name;
   const sourceExt = path.parse(file.name).ext.toLowerCase();
@@ -31,6 +31,11 @@ const pngToIco = require('png-to-ico');
     } else {
       // Если исходный файл не ICO, используем sharp как раньше
       sharpInst = sharp(Buffer.from(file.buffer));
+
+      // --- Применяем resize, если задан ---
+      if (resize && (resize.width || resize.height)) {
+        sharpInst = sharpInst.resize(resize.width || null, resize.height || null, { fit: 'inside' });
+      }
 
       switch (ext) {
         case 'png':

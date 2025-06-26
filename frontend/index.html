@@ -15,215 +15,266 @@
 </head>
 <body>
   <div class="background"></div>
-  <header class="glass-panel header compact-header">
-    <div class="logo">
-      <span class="logo"><img src="../assets/icon.png" alt="Logo" class="loader" style="width:24px;height:auto;display:block;margin:0 auto 1px auto;"></span>
-      <span class="logo"><img src="../assets/loder-txt-re-frame.png" alt="Logo" class="logo" style="width:110px;height:auto;display:block;"></span>       
-    </div>
-    <div id="header-progress-bar" class="header-progress-bar"></div>
-    <div class="controls">
-      <a href="javascript:void(0)" class="telegram-link" onclick="window.electronAPI.openExternal('https://t.me/sh_studio_official')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M19.3,6.6L3.8,13.7c-0.3,0.1-0.2,0.6,0.1,0.6l3.8,1.2l1.5,4.8c0.1,0.3,0.5,0.3,0.7,0.1l2.1-2.1l4.1,3c0.2,0.2,0.6,0,0.7-0.2l3.5-14C20.3,6.6,19.8,6.3,19.3,6.6z M17.5,8.6L9.3,14.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.5,3c0,0.2-0.3,0.2-0.4,0.1l-0.8-2.7c-0.1-0.2,0-0.5,0.2-0.6l9.2-5.9C16.9,8.1,17.1,8.4,17.5,8.6z"/>
-        </svg>
-      </a>
-      <a href="javascript:void(0)" class="info-link" onclick="document.querySelector('.modal-info').classList.add('open')" title="Информация о форматах">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.995-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-        </svg>
-      </a>
-      <a href="javascript:void(0)" class="telegram-link" onclick="window.electronAPI.openExternal('https://t.me/santhouse_life')">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-        </svg>                       
-      </a>
-    </div>
-  </header>
-  <main>
-    <section class="glass-panel main-panel">
-      <h2>Конвертер файлов</h2>
-      <div class="drop-zone" id="dropZone">
-        <p>Перетащите файлы сюда или <label class="file-label"><input type="file" hidden id="fileInput" multiple>выберите файлы</label></p>
+  <div id="appRoot" class="app-hidden">
+    <header class="glass-panel header compact-header">
+      <div class="logo">
+        <span class="logo"><img src="../assets/icon.png" alt="Logo" class="loader" style="width:24px;height:auto;display:block;margin:0 auto 1px auto;"></span>
+        <span class="logo"><img src="../assets/loder-txt-re-frame.png" alt="Logo" class="logo" style="width:110px;height:auto;display:block;"></span>       
       </div>
-      <div class="preview glass-panel" id="previewBlock" style="display:none">
-        <img id="previewImg" alt="preview"/>
-        <p id="previewText"></p>
-      </div>
-      <div class="actions">
-        <div class="active-format" id="activeFormat" onclick="document.querySelector('.modal-formats').classList.add('open')">
-          <svg id="activeFormatIcon" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path d="M12 20.94c1.5 0 3-.5 4-1.5l-.7-1.4a6.95 6.95 0 0 0-6.6 0L8 19.44c1 1 2.5 1.5 4 1.5z"/>
-            <path d="M10.3 2.3c-.4 1.8-1.7 3.3-3.5 3.7-1.4.3-2.8-.3-3.8-1.4L.5 4.7c-.5.5-1.1 1.1-1.4 2-.4 1.4.3 2.8 1.4 3.8L4 12.5c1 1 2.5 1.5 4 1.5s3-.5 4-1.5l1.4-1.4c1.8-1.8 3.3-4.5 3.3-7.3 0-1.8-.4-3.5-1.4-4.9C14.3-.7 12.3-.3 10.3 2.3z"/>
+      <div id="header-progress-bar" class="header-progress-bar"></div>
+      <div class="controls">
+        <a href="javascript:void(0)" class="telegram-link" onclick="window.electronAPI.openExternal('https://t.me/sh_studio_official')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19.3,6.6L3.8,13.7c-0.3,0.1-0.2,0.6,0.1,0.6l3.8,1.2l1.5,4.8c0.1,0.3,0.5,0.3,0.7,0.1l2.1-2.1l4.1,3c0.2,0.2,0.6,0,0.7-0.2l3.5-14C20.3,6.6,19.8,6.3,19.3,6.6z M17.5,8.6L9.3,14.1c-0.1,0.1-0.2,0.2-0.2,0.3l-0.5,3c0,0.2-0.3,0.2-0.4,0.1l-0.8-2.7c-0.1-0.2,0-0.5,0.2-0.6l9.2-5.9C16.9,8.1,17.1,8.4,17.5,8.6z"/>
           </svg>
-          <span id="activeFormatText">PNG</span>
-        </div>
-        <button class="glass-btn" id="convertBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
-          Конвертировать
-        </button>
-        <button class="glass-btn" id="removeBgBtn" title="Удалить фон">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
-          Удалить фон
-        </button>
+        </a>
+        <a href="javascript:void(0)" class="info-link" onclick="document.querySelector('.modal-info').classList.add('open')" title="Информация о форматах">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.995-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+          </svg>
+        </a>
+        <a href="javascript:void(0)" class="telegram-link" onclick="window.electronAPI.openExternal('https://t.me/santhouse_life')">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+          </svg>                       
+        </a>
+        <a href="javascript:void(0)" class="settings-link" id="openSettingsBtn" title="Настройки">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" color="currentColor"><path d="M16.308 4.384c-.59 0-.886 0-1.155-.1l-.111-.046c-.261-.12-.47-.328-.888-.746c-.962-.962-1.443-1.443-2.034-1.488a2 2 0 0 0-.24 0c-.591.045-1.072.526-2.034 1.488c-.418.418-.627.627-.888.746l-.11.046c-.27.1-.565.1-1.156.1h-.11c-1.507 0-2.261 0-2.73.468s-.468 1.223-.468 2.73v.11c0 .59 0 .886-.1 1.155q-.022.057-.046.111c-.12.261-.328.47-.746.888c-.962.962-1.443 1.443-1.488 2.034a2 2 0 0 0 0 .24c.045.591.526 1.072 1.488 2.034c.418.418.627.627.746.888q.025.054.046.11c.1.27.1.565.1 1.156v.11c0 1.507 0 2.261.468 2.73s1.223.468 2.73.468h.11c.59 0 .886 0 1.155.1q.057.021.111.046c.261.12.47.328.888.746c.962.962 1.443 1.443 2.034 1.488q.12.009.24 0c.591-.045 1.072-.526 2.034-1.488c.418-.418.627-.626.888-.746q.054-.025.11-.046c.27-.1.565-.1 1.156-.1h.11c1.507 0 2.261 0 2.73-.468s.468-1.223.468-2.73v-.11c0-.59 0-.886.1-1.155q.021-.057.046-.111c.12-.261.328-.47.746-.888c.962-.962 1.443-1.443 1.488-2.034q.009-.12 0-.24c-.045-.591-.526-1.072-1.488-2.034c-.418-.418-.626-.627-.746-.888l-.046-.11c-.1-.27-.1-.565-.1-1.156v-.11c0-1.507 0-2.261-.468-2.73s-1.223-.468-2.73-.468z"/><path d="M15.5 12a3.5 3.5 0 1 1-7 0a3.5 3.5 0 0 1 7 0"/></g></svg>
+        </a>
       </div>
-    </section>
-    <div class="modal-formats glass-panel" tabindex="-1">
-      <div class="modal-content">
-        <h3>Выберите формат</h3>
-        <div class="modal-scroll-area">
-          <div class="format-category">Растровые изображения</div>
-          <div class="format-grid">
-            <div class="format-icon" data-format="PNG" title="PNG — популярный растровый формат с поддержкой прозрачности.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V7.5A2.25 2.25 0 0 1 5.25 5.25h13.5A2.25 2.25 0 0 1 21 7.5v9a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 16.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5l4.5-4.5a2.25 2.25 0 0 1 3.18 0l4.32 4.32a2.25 2.25 0 0 0 3.18 0L21 16.5"/><circle cx="8.25" cy="8.25" r="1.25"/></svg>
-              <span>PNG</span>
+    </header>
+    <main>
+      <section class="glass-panel main-panel">
+        <h2>Конвертер файлов</h2>
+        <div class="drop-zone" id="dropZone">
+          <p>Перетащите файлы сюда или <label class="file-label"><input type="file" hidden id="fileInput" multiple>выберите файлы</label></p>
+        </div>
+        <div class="preview glass-panel" id="previewBlock" style="display:none">
+          <img id="previewImg" alt="preview"/>
+          <p id="previewText"></p>
+        </div>
+        <div class="actions">
+          <div class="active-format" id="activeFormat" onclick="document.querySelector('.modal-formats').classList.add('open')">
+            <svg id="activeFormatIcon" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path d="M12 20.94c1.5 0 3-.5 4-1.5l-.7-1.4a6.95 6.95 0 0 0-6.6 0L8 19.44c1 1 2.5 1.5 4 1.5z"/>
+              <path d="M10.3 2.3c-.4 1.8-1.7 3.3-3.5 3.7-1.4.3-2.8-.3-3.8-1.4L.5 4.7c-.5.5-1.1 1.1-1.4 2-.4 1.4.3 2.8 1.4 3.8L4 12.5c1 1 2.5 1.5 4 1.5s3-.5 4-1.5l1.4-1.4c1.8-1.8 3.3-4.5 3.3-7.3 0-1.8-.4-3.5-1.4-4.9C14.3-.7 12.3-.3 10.3 2.3z"/>
+            </svg>
+            <span id="activeFormatText">PNG</span>
+          </div>
+          <button class="glass-btn" id="convertBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23-.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+            Конвертировать
+          </button>
+          <button class="glass-btn" id="removeBgBtn" title="Удалить фон">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/></svg>
+            Удалить фон
+          </button>
+        </div>
+      </section>
+      <footer class="glass-panel header compact-header">
+        <span id="shStudioFooter">Made with SH Studio® 2025</span>
+      </footer>
+      <div class="modal-formats glass-panel" tabindex="-1">
+        <div class="modal-content">
+          <h3>Выберите формат</h3>
+          <div class="modal-scroll-area">
+            <div class="format-category">Растровые изображения</div>
+            <div class="format-grid">
+              <div class="format-icon" data-format="PNG" title="PNG — популярный растровый формат с поддержкой прозрачности.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5V7.5A2.25 2.25 0 0 1 5.25 5.25h13.5A2.25 2.25 0 0 1 21 7.5v9a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 16.5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5l4.5-4.5a2.25 2.25 0 0 1 3.18 0l4.32 4.32a2.25 2.25 0 0 0 3.18 0L21 16.5"/><circle cx="8.25" cy="8.25" r="1.25"/></svg>
+                <span>PNG</span>
+              </div>
+              <div class="format-icon" data-format="JPG" title="JPG — сжатый растровый формат для фотографий.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 19.5V7.5A2.25 2.25 0 0 1 4.5 5.25h2.379a1.5 1.5 0 0 0 1.06-.44l.621-.62A1.5 1.5 0 0 1 9.56 3.75h4.88a1.5 1.5 0 0 1 1.06.44l.621.62a1.5 1.5 0 0 0 1.06.44H19.5a2.25 2.25 0 0 1 2.25 2.25v12a2.25 2.25 0 0 1-2.25 2.25H4.5A2.25 2.25 0 0 1 2.25 19.5z"/><circle cx="12" cy="13.5" r="3.75"/></svg>
+                <span>JPG</span>
+              </div>
+              <div class="format-icon" data-format="GIF" title="GIF — анимированный растровый формат, поддерживает прозрачность.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 5v14M17 5v14M3 9h18M3 15h18"/></svg>
+                <span>GIF</span>
+              </div>
+              <div class="format-icon" data-format="BMP" title="BMP — несжатый растровый формат, большой размер файла.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="6" y="9" width="12" height="7" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></svg>
+                <span>BMP</span>
+              </div>
+              <div class="format-icon" data-format="TGA" title="TGA — формат для текстур и графики, поддерживает прозрачность.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><circle cx="12" cy="16" r="1"/></svg>
+                <span>TGA</span>
+              </div>
+              <div class="format-icon" data-format="TIFF" title="TIFF — профессиональный формат для сканирования и печати.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8 12h8M8 16h4"/></svg>
+                <span>TIFF</span>
+              </div>
+              <div class="format-icon" data-format="WEBP" title="WEBP — современный формат сжатия изображений от Google.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12h19.5M12 2.25c2.25 3.75 2.25 15.75 0 19.5M12 2.25c-2.25 3.75-2.25 15.75 0 19.5"/></svg>
+                <span>WEBP</span>
+              </div>
+              <div class="format-icon" data-format="ICO" title="ICO — иконка Windows, поддерживает несколько размеров.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18"/></svg>
+                <span>ICO</span>
+              </div>
+              <div class="format-icon" data-format="HEIC" title="HEIC — формат изображений с высокой эффективностью, используемый на устройствах Apple.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 1000 1000" stroke="currentColor" stroke-width="60" stroke-linecap="round" stroke-linejoin="round"><path d="M878 697C878 697 878 697 878 697C873 711 868 725 862 739C849 770 832 799 814 826C788 862 767 887 751 901C727 924 700 936 671 936C651 936 626 930 597 919C568 907 542 901 518 901C492 901 465 907 436 919C407 930 383 937 365 937C338 938 310 926 283 901C266 886 244 860 218 823C190 784 167 738 149 686C130 630 120 576 120 523C120 463 133 411 159 367C180 332 207 304 241 284C275 264 312 253 352 253C374 253 402 259 438 273C473 286 496 293 506 293C513 293 538 285 581 269C621 255 656 249 683 251C759 257 816 287 854 341C786 382 753 439 753 513C754 570 775 618 816 656C834 674 855 687 878 697M688 55C688 55 688 55 688 55C688 100 672 142 639 181C600 227 552 254 500 250C499 245 499 239 499 233C499 190 518 143 551 106C568 87 589 71 615 58C640 45 665 38 688 37C688 43 688 49 688 55"/></svg>
+                <span>HEIC</span>
+              </div>
+              <div class="format-icon" data-format="AVIF" title="AVIF — современный формат сжатия, более эффективный, чем WebP.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v-.447a2.25 2.25 0 0 0 .11-.132l4.47-4.47a2.25 2.25 0 0 1 1.34-.521 2.25 2.25 0 0 1 2.249 2.249v.447m0 0c1.33-.044 2.653.225 3.878.741a2.244 2.244 0 0 1 1.424 2.28l-.348 2.087a2.244 2.244 0 0 1-1.424 2.28A18.03 18.03 0 0 1 12 20.94v-5.714c0-.168.011-.336.032-.502M9 17.25H7.5c-.621 0-1.125-.504-1.125-1.125V4.5c0-.621.504-1.125 1.125-1.125h8.25c.621 0 1.125.504 1.125 1.125V6a2.25 2.25 0 0 1-1.125 1.948m0 0a2.25 2.25 0 0 1-2.249 2.249m0 0a2.25 2.25 0 0 0-1.34.521m-4.47 4.47L9 17.25"/></svg>
+                <span>AVIF</span>
+              </div>
             </div>
-            <div class="format-icon" data-format="JPG" title="JPG — сжатый растровый формат для фотографий.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 19.5V7.5A2.25 2.25 0 0 1 4.5 5.25h2.379a1.5 1.5 0 0 0 1.06-.44l.621-.62A1.5 1.5 0 0 1 9.56 3.75h4.88a1.5 1.5 0 0 1 1.06.44l.621.62a1.5 1.5 0 0 0 1.06.44H19.5a2.25 2.25 0 0 1 2.25 2.25v12a2.25 2.25 0 0 1-2.25 2.25H4.5A2.25 2.25 0 0 1 2.25 19.5z"/><circle cx="12" cy="13.5" r="3.75"/></svg>
-              <span>JPG</span>
+            <div class="format-category">Векторные изображения</div>
+            <div class="format-grid">
+              <div class="format-icon" data-format="SVG" title="SVG — масштабируемая векторная графика для web.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 0 1 3.182 3.182l-12.75 12.75a2.25 2.25 0 0 1-1.06.59l-4.5 1.125a.75.75 0 0 1-.91-.91l1.125-4.5a2.25 2.25 0 0 1 .59-1.06l12.75-12.75z"/></svg>
+                <span>SVG</span>
+              </div>
+              <div class="format-icon" data-format="SVGZ" title="SVGZ — сжатый SVG, меньший размер файла.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 0 1 3.182 3.182l-12.75 12.75a2.25 2.25 0 0 1-1.06.59l-4.5 1.125a.75.75 0 0 1-.91-.91l1.125-4.5a2.25 2.25 0 0 1 .59-1.06l12.75-12.75z"/></svg>
+                <span>SVGZ</span>
+              </div>
             </div>
-            <div class="format-icon" data-format="GIF" title="GIF — анимированный растровый формат, поддерживает прозрачность.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M7 5v14M17 5v14M3 9h18M3 15h18"/></svg>
-              <span>GIF</span>
+            <div class="format-category">Документы</div>
+            <div class="format-grid">
+              <div class="format-icon" data-format="PDF" title="PDF — универсальный формат для документов и векторной графики.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8 12h8M8 16h4"/></svg>
+                <span>PDF</span>
+              </div>
             </div>
-            <div class="format-icon" data-format="BMP" title="BMP — несжатый растровый формат, большой размер файла.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="6" y="9" width="12" height="7" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"/></svg>
-              <span>BMP</span>
+            <div class="format-category">Графика для приложений</div>
+            <div class="format-grid">
+              <div class="format-icon" data-format="PSD" title="PSD — исходный формат Adobe Photoshop, поддерживает слои.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="7" width="16" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10M16 7v10"/></svg>
+                <span>PSD</span>
+              </div>
+              <div class="format-icon" data-format="DICOM" title="DICOM — медицинский формат для хранения снимков.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
+                <span>DICOM</span>
+              </div>
+              <div class="format-icon" data-format="HTML5 CANVAS" title="HTML5 Canvas — рендеринг изображений через браузер.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18"/></svg>
+                <span>HTML5</span>
+              </div>
             </div>
-            <div class="format-icon" data-format="TGA" title="TGA — формат для текстур и графики, поддерживает прозрачность.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><circle cx="8" cy="10" r="1"/><circle cx="16" cy="10" r="1"/><circle cx="12" cy="16" r="1"/></svg>
-              <span>TGA</span>
-            </div>
-            <div class="format-icon" data-format="TIFF" title="TIFF — профессиональный формат для сканирования и печати.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8 12h8M8 16h4"/></svg>
-              <span>TIFF</span>
-            </div>
-            <div class="format-icon" data-format="WEBP" title="WEBP — современный формат сжатия изображений от Google.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12h19.5M12 2.25c2.25 3.75 2.25 15.75 0 19.5M12 2.25c-2.25 3.75-2.25 15.75 0 19.5"/></svg>
-              <span>WEBP</span>
-            </div>
-            <div class="format-icon" data-format="ICO" title="ICO — иконка Windows, поддерживает несколько размеров.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18"/></svg>
-              <span>ICO</span>
-            </div>
-            <div class="format-icon" data-format="HEIC" title="HEIC — формат изображений с высокой эффективностью, используемый на устройствах Apple.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 1000 1000" stroke="currentColor" stroke-width="60" stroke-linecap="round" stroke-linejoin="round"><path d="M878 697C878 697 878 697 878 697C873 711 868 725 862 739C849 770 832 799 814 826C788 862 767 887 751 901C727 924 700 936 671 936C651 936 626 930 597 919C568 907 542 901 518 901C492 901 465 907 436 919C407 930 383 937 365 937C338 938 310 926 283 901C266 886 244 860 218 823C190 784 167 738 149 686C130 630 120 576 120 523C120 463 133 411 159 367C180 332 207 304 241 284C275 264 312 253 352 253C374 253 402 259 438 273C473 286 496 293 506 293C513 293 538 285 581 269C621 255 656 249 683 251C759 257 816 287 854 341C786 382 753 439 753 513C754 570 775 618 816 656C834 674 855 687 878 697M688 55C688 55 688 55 688 55C688 100 672 142 639 181C600 227 552 254 500 250C499 245 499 239 499 233C499 190 518 143 551 106C568 87 589 71 615 58C640 45 665 38 688 37C688 43 688 49 688 55"/></svg>
-              <span>HEIC</span>
-            </div>
-            <div class="format-icon" data-format="AVIF" title="AVIF — современный формат сжатия, более эффективный, чем WebP.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v-.447a2.25 2.25 0 0 0 .11-.132l4.47-4.47a2.25 2.25 0 0 1 1.34-.521 2.25 2.25 0 0 1 2.249 2.249v.447m0 0c1.33-.044 2.653.225 3.878.741a2.244 2.244 0 0 1 1.424 2.28l-.348 2.087a2.244 2.244 0 0 1-1.424 2.28A18.03 18.03 0 0 1 12 20.94v-5.714c0-.168.011-.336.032-.502M9 17.25H7.5c-.621 0-1.125-.504-1.125-1.125V4.5c0-.621.504-1.125 1.125-1.125h8.25c.621 0 1.125.504 1.125 1.125V6a2.25 2.25 0 0 1-1.125 1.948m0 0a2.25 2.25 0 0 1-2.249 2.249m0 0a2.25 2.25 0 0 0-1.34.521m-4.47 4.47L9 17.25"/></svg>
-              <span>AVIF</span>
+            <div class="format-category">Специальные и веб-форматы</div>
+            <div class="format-grid">
+              <div class="format-icon" data-format="BASE64" title="BASE64 — кодирование изображения в строку для web.">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
+                <span>BASE64</span>
+              </div>
             </div>
           </div>
-          <div class="format-category">Векторные изображения</div>
-          <div class="format-grid">
-            <div class="format-icon" data-format="SVG" title="SVG — масштабируемая векторная графика для web.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 0 1 3.182 3.182l-12.75 12.75a2.25 2.25 0 0 1-1.06.59l-4.5 1.125a.75.75 0 0 1-.91-.91l1.125-4.5a2.25 2.25 0 0 1 .59-1.06l12.75-12.75z"/></svg>
-              <span>SVG</span>
-            </div>
-            <div class="format-icon" data-format="SVGZ" title="SVGZ — сжатый SVG, меньший размер файла.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 3.487a2.25 2.25 0 0 1 3.182 3.182l-12.75 12.75a2.25 2.25 0 0 1-1.06.59l-4.5 1.125a.75.75 0 0 1-.91-.91l1.125-4.5a2.25 2.25 0 0 1 .59-1.06l12.75-12.75z"/></svg>
-              <span>SVGZ</span>
-            </div>
+          <form>
+            <button class="glass-btn" type="button" onclick="document.querySelector('.modal-formats').classList.remove('open')">Закрыть</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-info glass-panel" tabindex="-1">
+        <div class="modal-content">
+          <h3>Информация о форматах и конвертации</h3>
+          <div class="modal-scroll-area">
+            <p>Здесь вы найдете информацию о поддерживаемых форматах изображений и особенностях их конвертации в Re:frame.</p>
+            
+            <div class="format-category">Растровые изображения</div>
+            <p>
+              Форматы, основанные на пиксельной сетке. Конвертация между ними осуществляется с помощью библиотеки Sharp, которая обеспечивает высокую производительность.
+            </p>
+            <ul>
+              <li><b>PNG (.png)</b>: Популярный формат без потерь, поддерживает прозрачность. Идеален для графики, логотипов, изображений со sharp-границами.</li>
+              <li><b>JPG/JPEG (.jpg, .jpeg)</b>: Формат с потерями, оптимизирован для фотографий. Не поддерживает прозрачность. Степень сжатия влияет на качество.</li>
+              <li><b>GIF (.gif)</b>: Поддерживает анимацию и прозрачность (1 бит). Подходит для простых анимаций и изображений с ограниченной палитрой.</li>
+              <li><b>APNG (.apng)</b>: Анимированный вариант PNG. Поддерживает многоуровневую прозрачность и более широкую палитру, чем GIF.</li>
+              <li><b>WEBP (.webp)</b>: Современный формат от Google, поддерживает сжатие как с потерями, так и без потерь, а также прозрачность и анимацию. Обеспечивает лучшее сжатие по сравнению с JPG и PNG.</li>
+              <li><b>AVIF (.avif)</b>: Новейший формат сжатия, основанный на технологии сжатия видео AV1. Обеспечивает еще лучшее сжатие и качество по сравнению с WebP. Поддерживает прозрачность.</li>
+              <li><b>TIFF (.tiff)</b>: Профессиональный формат, часто используется в полиграфии и сканировании. Поддерживает различные варианты сжатия (включая без потерь) и многостраничность.</li>
+              <li><b>BMP (.bmp)</b>: Простой растровый формат без сжатия (или с простым сжатием без потерь). Обычно приводит к очень большим файлам.</li>
+              <li><b>TGA (.tga)</b>: Формат, часто используемый в индустрии компьютерной графики и видеоигр. Поддерживает прозрачность (альфа-канал).</li>
+              <li><b>JPEG2000 (.jp2, .j2k)</b>: Улучшенный преемник JPEG, поддерживающий сжатие как с потерями, так и без потерь. Менее распространен, чем JPEG.</li>
+              <li><b>HEIC/HEIF (.heic, .heif)</b>: Формат с высокой эффективностью, используемый, в частности, на устройствах Apple. Обеспечивает хорошее качество при меньшем размере файла по сравнению с JPEG. Поддерживает прозрачность и последовательности изображений.</li>
+            </ul>
+            
+            <div class="format-category">Векторные изображения</div>
+            <p>
+              Форматы, основанные на математических описаниях фигур. Могут масштабироваться без потери качества.
+            </p>
+            <ul>
+              <li><b>SVG (.svg)</b>: Открытый стандарт для масштабируемой векторной графики в вебе. Поддерживает интерактивность и анимацию.</li>
+              <li><b>SVGZ (.svgz)</b>: Сжатый вариант SVG.</li>
+              <li><b>EMF (.emf), EMZ (.emz), WMF (.wmf), WMZ (.wmz)</b>: Форматы метафайлов Windows. Могут содержать как векторные, так и растровые данные. Конвертация в эти форматы не поддерживается текущими библиотеками.</li>
+            </ul>
+            
+            <div class="format-category">Иконки и специальные форматы</div>
+            <p>
+              Форматы, имеющие специфическое назначение.
+            </p>
+            <ul>
+              <li><b>ICO (.ico)</b>: Формат файлов иконок Windows. Может содержать несколько изображений разного размера и глубины цвета. Конвертация *в* ICO осуществляется с помощью библиотеки png-to-ico (из PNG). Конвертация *из* ICO в другие форматы пока не поддерживается.</li>
+              <li><b>BASE64</b>: Не формат файла как таковой, а метод кодирования изображения в текстовую строку. Удобно для встраивания изображений непосредственно в HTML/CSS/JavaScript. В Re:frame вы можете получить Base64 строку PNG представления изображения.</li>
+              <li><b>HTML5 Canvas</b>: Также не формат файла, а элемент HTML5 для рисования графики с помощью JavaScript. Используется для рендеринга изображений на веб-странице. В контексте конвертера может означать получение данных изображения для последующего использования на Canvas. Прямая конвертация в Canvas не выполняется, но вы можете получить данные в формате, пригодном для рендеринга (например, Data URL или буфер).</li>
+              <li><b>PSD (.psd)</b>: Исходный формат файлов Adobe Photoshop. Поддерживает слои, маски и другие элементы редактирования. Не поддерживается для конвертации в Re:frame.</li>
+              <li><b>DICOM (.dcm, .dicom)</b>: Стандарт для хранения и передачи медицинских изображений. Не поддерживается для конвертации в Re:frame.</li>
+            </ul>
+            
+            <div class="format-category">Документы</div>
+            <p>
+              Форматы, предназначенные в основном для документов, но могущие содержать изображения.
+            </p>
+            <ul>
+              <li><b>PDF (.pdf)</b>: Универсальный формат документов. Может содержать векторную и растровую графику. Не поддерживается для конвертации в Re:frame.</li>
+            </ul>
+            
           </div>
-          <div class="format-category">Документы</div>
-          <div class="format-grid">
-            <div class="format-icon" data-format="PDF" title="PDF — универсальный формат для документов и векторной графики.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="4" width="16" height="16" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 8h8M8 12h8M8 16h4"/></svg>
-              <span>PDF</span>
-            </div>
+          <form>
+            <button class="glass-btn" type="button" onclick="document.querySelector('.modal-info').classList.remove('open')">Закрыть</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <div class="modal-settings glass-panel" tabindex="-1">
+    <div class="modal-content">
+      <h3 style="text-align:center;margin-bottom:1.5em;">Настройки</h3>
+      <div class="modal-scroll-area">
+        <div class="settings-section">
+          <div class="settings-title">Аудио</div>
+          <label class="settings-row">
+            <span>Включить звуки</span>
+            <input type="checkbox" id="audioToggle">
+          </label>
+        </div>
+        <div class="settings-section">
+          <div style="font-weight:600;margin-bottom:1.5em;">Размер результата</div>
+          <div id="customSizeBlock" style="display:none;gap:1em;align-items:center;margin-bottom:1em;">
+            <label>Ширина <input type="number" id="customWidth" min="1" max="10000" style="width:70px;"></label>
+            <label>Высота <input type="number" id="customHeight" min="1" max="10000" style="width:70px;"></label>
           </div>
-          <div class="format-category">Графика для приложений</div>
-          <div class="format-grid">
-            <div class="format-icon" data-format="PSD" title="PSD — исходный формат Adobe Photoshop, поддерживает слои.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="4" y="7" width="16" height="10" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M8 7v10M16 7v10"/></svg>
-              <span>PSD</span>
-            </div>
-            <div class="format-icon" data-format="DICOM" title="DICOM — медицинский формат для хранения снимков.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="7" y="2" width="10" height="20" rx="2"/><circle cx="12" cy="18" r="1"/></svg>
-              <span>DICOM</span>
-            </div>
-            <div class="format-icon" data-format="HTML5 CANVAS" title="HTML5 Canvas — рендеринг изображений через браузер.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path stroke-linecap="round" stroke-linejoin="round" d="M3 9h18"/></svg>
-              <span>HTML5</span>
-            </div>
-          </div>
-          <div class="format-category">Специальные и веб-форматы</div>
-          <div class="format-grid">
-            <div class="format-icon" data-format="BASE64" title="BASE64 — кодирование изображения в строку для web.">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>
-              <span>BASE64</span>
-            </div>
+          <div class="resize-panel" id="resizePanel">
+              <div class="dropdown-group">Другое
+                <div class="dropdown-item" data-value="original">Оригинал</div>
+                <div class="dropdown-item" data-value="custom">Пользовательский</div>
+              </div>
+              <div class="dropdown-group">Маленькие
+                <div class="dropdown-item" data-value="128x128">128×128 (иконка)</div>
+                <div class="dropdown-item" data-value="256x256">256×256 (аватар)</div>
+                <div class="dropdown-item" data-value="512x512">512×512</div>
+              </div>
+              <div class="dropdown-group">Стандартные
+                <div class="dropdown-item" data-value="800x600">800×600</div>
+                <div class="dropdown-item" data-value="1024x768">1024×768</div>
+                <div class="dropdown-item" data-value="1920x1080">1920×1080 (FullHD)</div>
+                <div class="dropdown-item" data-value="2560x1440">2560×1440 (2K)</div>
+                <div class="dropdown-item" data-value="3840x2160">3840×2160 (4K)</div>
+              </div>
+              <div class="dropdown-group">Соцсети
+                <div class="dropdown-item" data-value="1080x1080">1080×1080 (Instagram пост)</div>
+                <div class="dropdown-item" data-value="1200x628">1200×628 (Facebook/ВК обложка)</div>
+              </div>
           </div>
         </div>
-        <form>
-          <button class="glass-btn" type="button" onclick="document.querySelector('.modal-formats').classList.remove('open')">Закрыть</button>
-        </form>
       </div>
+      <form>
+        <button class="glass-btn" type="button" onclick="document.querySelector('.modal-settings').classList.remove('open')">Закрыть</button>
+      </form>
     </div>
-    <div class="modal-info glass-panel" tabindex="-1">
-      <div class="modal-content">
-        <h3>Информация о форматах и конвертации</h3>
-        <div class="modal-scroll-area">
-          <p>Здесь вы найдете информацию о поддерживаемых форматах изображений и особенностях их конвертации в Re:frame.</p>
-          
-          <div class="format-category">Растровые изображения</div>
-          <p>
-            Форматы, основанные на пиксельной сетке. Конвертация между ними осуществляется с помощью библиотеки Sharp, которая обеспечивает высокую производительность.
-          </p>
-          <ul>
-            <li><b>PNG (.png)</b>: Популярный формат без потерь, поддерживает прозрачность. Идеален для графики, логотипов, изображений со sharp-границами.</li>
-            <li><b>JPG/JPEG (.jpg, .jpeg)</b>: Формат с потерями, оптимизирован для фотографий. Не поддерживает прозрачность. Степень сжатия влияет на качество.</li>
-            <li><b>GIF (.gif)</b>: Поддерживает анимацию и прозрачность (1 бит). Подходит для простых анимаций и изображений с ограниченной палитрой.</li>
-            <li><b>APNG (.apng)</b>: Анимированный вариант PNG. Поддерживает многоуровневую прозрачность и более широкую палитру, чем GIF.</li>
-            <li><b>WEBP (.webp)</b>: Современный формат от Google, поддерживает сжатие как с потерями, так и без потерь, а также прозрачность и анимацию. Обеспечивает лучшее сжатие по сравнению с JPG и PNG.</li>
-            <li><b>AVIF (.avif)</b>: Новейший формат сжатия, основанный на технологии сжатия видео AV1. Обеспечивает еще лучшее сжатие и качество по сравнению с WebP. Поддерживает прозрачность.</li>
-            <li><b>TIFF (.tiff)</b>: Профессиональный формат, часто используется в полиграфии и сканировании. Поддерживает различные варианты сжатия (включая без потерь) и многостраничность.</li>
-            <li><b>BMP (.bmp)</b>: Простой растровый формат без сжатия (или с простым сжатием без потерь). Обычно приводит к очень большим файлам.</li>
-            <li><b>TGA (.tga)</b>: Формат, часто используемый в индустрии компьютерной графики и видеоигр. Поддерживает прозрачность (альфа-канал).</li>
-            <li><b>JPEG2000 (.jp2, .j2k)</b>: Улучшенный преемник JPEG, поддерживающий сжатие как с потерями, так и без потерь. Менее распространен, чем JPEG.</li>
-            <li><b>HEIC/HEIF (.heic, .heif)</b>: Формат с высокой эффективностью, используемый, в частности, на устройствах Apple. Обеспечивает хорошее качество при меньшем размере файла по сравнению с JPEG. Поддерживает прозрачность и последовательности изображений.</li>
-          </ul>
-          
-          <div class="format-category">Векторные изображения</div>
-          <p>
-            Форматы, основанные на математических описаниях фигур. Могут масштабироваться без потери качества.
-          </p>
-          <ul>
-            <li><b>SVG (.svg)</b>: Открытый стандарт для масштабируемой векторной графики в вебе. Поддерживает интерактивность и анимацию.</li>
-            <li><b>SVGZ (.svgz)</b>: Сжатый вариант SVG.</li>
-            <li><b>EMF (.emf), EMZ (.emz), WMF (.wmf), WMZ (.wmz)</b>: Форматы метафайлов Windows. Могут содержать как векторные, так и растровые данные. Конвертация в эти форматы не поддерживается текущими библиотеками.</li>
-          </ul>
-          
-          <div class="format-category">Иконки и специальные форматы</div>
-          <p>
-            Форматы, имеющие специфическое назначение.
-          </p>
-          <ul>
-            <li><b>ICO (.ico)</b>: Формат файлов иконок Windows. Может содержать несколько изображений разного размера и глубины цвета. Конвертация *в* ICO осуществляется с помощью библиотеки png-to-ico (из PNG). Конвертация *из* ICO в другие форматы пока не поддерживается.</li>
-            <li><b>BASE64</b>: Не формат файла как таковой, а метод кодирования изображения в текстовую строку. Удобно для встраивания изображений непосредственно в HTML/CSS/JavaScript. В Re:frame вы можете получить Base64 строку PNG представления изображения.</li>
-            <li><b>HTML5 Canvas</b>: Также не формат файла, а элемент HTML5 для рисования графики с помощью JavaScript. Используется для рендеринга изображений на веб-странице. В контексте конвертера может означать получение данных изображения для последующего использования на Canvas. Прямая конвертация в Canvas не выполняется, но вы можете получить данные в формате, пригодном для рендеринга (например, Data URL или буфер).</li>
-            <li><b>PSD (.psd)</b>: Исходный формат файлов Adobe Photoshop. Поддерживает слои, маски и другие элементы редактирования. Не поддерживается для конвертации в Re:frame.</li>
-            <li><b>DICOM (.dcm, .dicom)</b>: Стандарт для хранения и передачи медицинских изображений. Не поддерживается для конвертации в Re:frame.</li>
-          </ul>
-          
-          <div class="format-category">Документы</div>
-          <p>
-            Форматы, предназначенные в основном для документов, но могущие содержать изображения.
-          </p>
-          <ul>
-            <li><b>PDF (.pdf)</b>: Универсальный формат документов. Может содержать векторную и растровую графику. Не поддерживается для конвертации в Re:frame.</li>
-          </ul>
-          
-        </div>
-        <form>
-          <button class="glass-btn" type="button" onclick="document.querySelector('.modal-info').classList.remove('open')">Закрыть</button>
-        </form>
-      </div>
-    </div>
-  </main>
-  <footer class="glass-panel header compact-header">
-    <span id="shStudioFooter">Made with SH Studio® 2025</span>
-  </footer>
+  </div>
   <div id="loadingScreen" class="loading-screen">
     <img src="../assets/icon.png" alt="Logo" class="loader" style="width:140px;height:140px;display:block;margin:0 auto 1px auto;">
     <img src="../assets/loder-txt-re-frame.png" alt="Logo" class="loading-title" style="width:160px;height:auto;display:block;margin-top:10px auto 1px auto;">

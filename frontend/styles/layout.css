@@ -127,3 +127,27 @@ footer.header :hover {
   height: 30px;
   stroke: currentColor;
 } 
+.settings-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px; /* Размер кнопки */
+  height: 30px; /* Размер кнопки */
+  border-radius: 50%;
+  color: var(--color-text-main);
+  transition: color 0.2s;
+}
+
+.settings-link:hover {
+  border: 0px solid var(--color-border-active);
+  border-radius: 50%;
+  transform: scale(1.07);
+  color: var(--color-focus);
+  box-shadow: var(--color-shadow);
+}
+
+.settings-link svg {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor;
+} 

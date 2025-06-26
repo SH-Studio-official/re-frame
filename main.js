@@ -43,7 +43,7 @@ app.on('activate', () => {
 });
 
 // IPC обработчик для конвертации файлов
-ipcMain.handle('convert-files', async (event, files, format) => {
+ipcMain.handle('convert-files', async (event, files, format, resize) => {
   const outDir = path.join(os.tmpdir(), 'convector-output');
   if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
   const results = await Promise.all(files.map(file => {
@@ -52,7 +52,8 @@ ipcMain.handle('convert-files', async (event, files, format) => {
         workerData: {
           file,
           format,
-          outDir
+          outDir,
+          resize
         }
       });
       worker.on('message', (result) => resolve(result));

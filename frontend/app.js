@@ -2,7 +2,7 @@
 (function() {
   const bgCount = 4;
   const bgNum = Math.floor(Math.random() * bgCount) + 1;
-  document.querySelector('.background').style.backgroundImage = `url('../assets/bg-${bgNum}.jpg')`;
+  document.querySelector('.background').style.backgroundImage = `url('../assets/bg-${bgNum}.avif')`;
 })();
 
 const fileInput = document.getElementById('fileInput');
@@ -337,6 +337,7 @@ function clearResultsBlock() {
 
 // --- Звуковая обратная связь ---
 function playSound(type) {
+  if (!settings.audio) return;
   let src = '';
   if (type === 'success') src = '../assets/success.mp3';
   if (type === 'error') src = '../assets/error.mp3';
@@ -490,13 +491,81 @@ function finishHeaderProgressBar() {
   }, delay);
 }
 
+// --- НАСТРОЙКИ ---
+const SETTINGS_KEY = 'reframe_settings';
+let settings = {
+  audio: true,
+  resize: { preset: 'original', width: null, height: null }
+};
+function loadSettings() {
+  try {
+    const s = JSON.parse(localStorage.getItem(SETTINGS_KEY));
+    if (s && typeof s === 'object') settings = Object.assign(settings, s);
+  } catch {}
+}
+function saveSettings() {
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+}
+function applySettingsUI() {
+  const audioToggle = document.getElementById('audioToggle');
+  if (audioToggle) audioToggle.checked = !!settings.audio;
+  const resizePreset = document.getElementById('resizePreset');
+  if (resizePreset) resizePreset.value = settings.resize.preset;
+  const customBlock = document.getElementById('customSizeBlock');
+  if (customBlock) customBlock.style.display = settings.resize.preset === 'custom' ? '' : 'none';
+  const customWidth = document.getElementById('customWidth');
+  const customHeight = document.getElementById('customHeight');
+  if (customWidth) customWidth.value = settings.resize.width || '';
+  if (customHeight) customHeight.value = settings.resize.height || '';
+}
+function setupSettingsUI() {
+  const openBtn = document.getElementById('openSettingsBtn');
+  if (openBtn) openBtn.onclick = () => document.querySelector('.modal-settings').classList.add('open');
+  document.querySelector('.modal-settings').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+  const audioToggle = document.getElementById('audioToggle');
+  if (audioToggle) audioToggle.onchange = function() {
+    settings.audio = !!this.checked;
+    saveSettings();
+  };
+  const resizePreset = document.getElementById('resizePreset');
+  if (resizePreset) resizePreset.onchange = function() {
+    settings.resize.preset = this.value;
+    if (this.value !== 'custom') {
+      if (this.value === 'original') {
+        settings.resize.width = null;
+        settings.resize.height = null;
+      } else {
+        const [w, h] = this.value.split('x').map(Number);
+        settings.resize.width = w;
+        settings.resize.height = h;
+      }
+    }
+    saveSettings();
+    applySettingsUI();
+  };
+  const customWidth = document.getElementById('customWidth');
+  const customHeight = document.getElementById('customHeight');
+  if (customWidth) customWidth.oninput = function() {
+    settings.resize.width = parseInt(this.value) || null;
+    saveSettings();
+  };
+  if (customHeight) customHeight.oninput = function() {
+    settings.resize.height = parseInt(this.value) || null;
+    saveSettings();
+  };
+}
+
 // Навешиваем обработчик на существующую кнопку 'Конвертировать' после загрузки DOM
 window.addEventListener('DOMContentLoaded', () => {
-  // Скрыть лоадинг-экран после загрузки
+  // Показываем только лоадинг-экран, основной интерфейс скрыт (app-hidden)
   setTimeout(() => {
     const loading = document.getElementById('loadingScreen');
+    const appRoot = document.getElementById('appRoot');
     if (loading) loading.classList.add('hide');
-  }, 1800);
+    if (appRoot) appRoot.classList.remove('app-hidden');
+  }, 1800); // Можно скорректировать время
   const actions = document.querySelector('.actions');
   const convertBtn = actions.querySelector('#convertBtn');
   if (convertBtn) {
@@ -507,26 +576,27 @@ window.addEventListener('DOMContentLoaded', () => {
       showHeaderProgressBar();
       convertBtn.disabled = true;
       convertBtn.innerHTML = iconHTML + 'Конвертация...';
-      // Собираем файлы для конвертации
       const filesToConvert = (selectedFiles.length === 1 ? selectedFiles : selectedForConvert.length ? selectedForConvert : selectedFiles);
       if (!filesToConvert.length) {
         convertBtn.disabled = false;
         convertBtn.innerHTML = iconHTML + 'Конвертировать';
         return;
       }
-      // Читаем содержимое файлов
       const fileBuffers = await Promise.all(filesToConvert.map(f => new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = () => resolve({ name: f.name, buffer: Array.from(new Uint8Array(reader.result)) });
         reader.onerror = reject;
         reader.readAsArrayBuffer(f);
       })));
-      // Получаем формат
       const format = activeFormatText.textContent.trim().toLowerCase();
-      // Отправляем на конвертацию
+      // --- resize параметры ---
+      let resize = null;
+      if (settings.resize.preset !== 'original') {
+        resize = { width: settings.resize.width, height: settings.resize.height };
+      }
       let results = [];
       try {
-        results = await window.electronAPI.convertFiles(fileBuffers, format);
+        results = await window.electronAPI.convertFiles(fileBuffers, format, resize);
       } catch (e) {
         finishHeaderProgressBar();
         alert('Ошибка конвертации: ' + e.message);
@@ -534,7 +604,6 @@ window.addEventListener('DOMContentLoaded', () => {
         convertBtn.innerHTML = iconHTML + 'Конвертировать';
         return;
       }
-      // Показываем результаты
       showResultsBlock(results);
       finishHeaderProgressBar();
       convertBtn.disabled = false;
@@ -607,4 +676,79 @@ window.addEventListener('DOMContentLoaded', () => {
       if (fileInput) fileInput.click();
     });
   }
-}); 
+  // --- При старте ---
+  loadSettings();
+  applySettingsUI();
+  setupSettingsUI();
+});
+
+// --- Панель выбора размера ---
+const resizePanel = document.getElementById('resizePanel');
+const customSizeBlock = document.getElementById('customSizeBlock');
+const sizePresets = [
+  { value: 'original', label: 'Оригинал', width: null, height: null },
+  { value: 'custom', label: 'Пользовательский', width: null, height: null },
+  { value: '128x128', label: '128×128 (иконка)', width: 128, height: 128 },
+  { value: '256x256', label: '256×256 (аватар)', width: 256, height: 256 },
+  { value: '512x512', label: '512×512', width: 512, height: 512 },
+  { value: '800x600', label: '800×600', width: 800, height: 600 },
+  { value: '1024x768', label: '1024×768', width: 1024, height: 768 },
+  { value: '1920x1080', label: '1920×1080 (FullHD)', width: 1920, height: 1080 },
+  { value: '2560x1440', label: '2560×1440 (2K)', width: 2560, height: 1440 },
+  { value: '3840x2160', label: '3840×2160 (4K)', width: 3840, height: 2160 },
+  { value: '1080x1080', label: '1080×1080 (Instagram пост)', width: 1080, height: 1080 },
+  { value: '1200x628', label: '1200×628 (Facebook/ВК обложка)', width: 1200, height: 628 }
+];
+
+function setResizePreset(value) {
+  settings.resize.preset = value;
+  // Снять выделение со всех
+  resizePanel.querySelectorAll('.dropdown-item').forEach(item => item.classList.remove('active'));
+  // Выделить выбранный
+  const selected = resizePanel.querySelector('.dropdown-item[data-value="' + value + '"]');
+  if (selected) selected.classList.add('active');
+  // Показать/скрыть customSizeBlock
+  if (value === 'custom') {
+    customSizeBlock.style.display = '';
+  } else {
+    customSizeBlock.style.display = 'none';
+    const preset = sizePresets.find(p => p.value === value);
+    if (preset) {
+      settings.resize.width = preset.width;
+      settings.resize.height = preset.height;
+      document.getElementById('customWidth').value = preset.width || '';
+      document.getElementById('customHeight').value = preset.height || '';
+    }
+  }
+  saveSettings();
+  // Отобразить выбранный размер над панелью
+  const label = sizePresets.find(p => p.value === value)?.label || 'Оригинал';
+  let display = document.getElementById('resizeSelectedDisplay');
+  if (!display) {
+    display = document.createElement('div');
+    display.id = 'resizeSelectedDisplay';
+    display.style.cssText = 'font-weight:600;margin-bottom:0.7em;color:var(--color-focus);text-align:left;';
+    resizePanel.parentNode.insertBefore(display, resizePanel);
+  }
+  display.textContent = 'Выбранный размер: ' + label;
+}
+
+resizePanel.querySelectorAll('.dropdown-item').forEach(item => {
+  item.onclick = function() {
+    setResizePreset(this.getAttribute('data-value'));
+  };
+});
+// При старте выставить выбранный
+setResizePreset(settings.resize.preset || 'original');
+
+// --- Пользовательский размер ---
+const customWidth = document.getElementById('customWidth');
+const customHeight = document.getElementById('customHeight');
+if (customWidth) customWidth.oninput = function() {
+  settings.resize.width = parseInt(this.value) || null;
+  saveSettings();
+};
+if (customHeight) customHeight.oninput = function() {
+  settings.resize.height = parseInt(this.value) || null;
+  saveSettings();
+}; 
